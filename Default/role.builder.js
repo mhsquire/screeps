@@ -18,15 +18,15 @@ var roleBuilder = {
                 if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
                 }
+            } else {
+                var flag = Game.flags.Flag1;
+                creep.moveTo(flag.pos.x, flag.pos.y,{visualizePathStyle: {stroke: '#ffffff'}});
             }
 	    } else {
 	        var sources = creep.room.find(FIND_SOURCES);
             var sources = _.sortBy(sources, s => creep.pos.getRangeTo(s));
             if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
-            } else {
-                var flag = Game.flags.Flag1;
-                creep.moveTo(flag.pos.x, flag.pos.y,{visualizePathStyle: {stroke: '#ffffff'}});
             }
 	    }
 	}
