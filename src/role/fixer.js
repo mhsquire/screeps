@@ -1,4 +1,4 @@
-var roleFixer = {
+var fixer = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
@@ -34,4 +34,4 @@ var roleFixer = {
     }
 };
 
-module.exports = roleFixer;
+module.exports = fixer;

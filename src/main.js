@@ -1,7 +1,7 @@
-var roleHarvester = require('role.harvester');
-var roleUpgrader = require('role.upgrader');
-var roleBuilder = require('role.builder');
-var rolefixer = require('role.fixer');
+var roleHarvester = require('src/role/harvester');
+var roleUpgrader = require('src/role/upgrader');
+var roleBuilder = require('src/role/builder');
+var rolefixer = require('src/role/fixer');
 
 
 function findRole(role) {

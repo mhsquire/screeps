@@ -1,14 +1,21 @@
 module.exports = function(grunt) {
 
-    var config = require('./.screeps.json')
+    var config = require('./.screeps.json');
     var branch = grunt.option('branch') || config.branch;
     var email = grunt.option('email') || config.email;
     var token = grunt.option('token') || config.token;
     var ptr = grunt.option('ptr') ? true : config.ptr;
 
     grunt.loadNpmTasks('grunt-screeps');
-    grunt.loadNpmTasks('grunt-contrib-clean')
-    grunt.loadNpmTasks('grunt-contrib-copy')
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-file-append');
+
+    var currentdate = new Date();
+
+    // Output the current date and branch.
+    grunt.log.subhead('Task Start: ' + currentdate.toLocaleString())
+    grunt.log.writeln('Branch: ' + branch)
 
     grunt.initConfig({
         screeps: {
@@ -23,7 +30,7 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         cwd: 'dist/',
-                        src: ['**/*.{js,wasm}'],
+                        src: ['dist/*.{js,wasm}'],
                         flatten: true
                     }
                 ]
@@ -47,12 +54,42 @@ module.exports = function(grunt) {
                     filter: 'isFile',
                     rename: function (dest, src) {
                         // Change the path name utilize underscores for folders
-                        return dest + src.replace(/\//g,'_');
+                        return dest + src.replace(/\//g,'.');
                     }
                 }],
             }
         },
+
+        // Add version variable using current timestamp.
+        file_append: {
+            versioning: {
+                files: [
+                    {
+                        append: "\nglobal.SCRIPT_VERSION = "+ currentdate.getTime() + "\n",
+                        input: 'dist/version.js',
+                    }
+                ]
+            }
+        },
+        // Apply code styling
+        jsbeautifier: {
+            modify: {
+                src: ["src/**/*.js"],
+                options: {
+                    config: '.jsbeautifyrc'
+                }
+            },
+            verify: {
+                src: ["src/**/*.js"],
+                options: {
+                    mode: 'VERIFY_ONLY',
+                    config: '.jsbeautifyrc'
+                }
+            }
+        }
     })
 
-    grunt.registerTask('default',  ['clean', 'copy:screeps', 'screeps']);
+    grunt.registerTask('default',  ['clean', 'copy:screeps', 'file_append:versioning', 'screeps']);
+    grunt.registerTask('test',     ['jsbeautifier:verify']);
+    grunt.registerTask('pretty',   ['jsbeautifier:modify']);
 }
