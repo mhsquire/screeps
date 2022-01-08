@@ -13,3 +13,5 @@
   - Defense first, mainly turrets.
   - Then Extensions for bigger creeps
   - Then roads and wall infrastructure.
+
+- I want to define a worker role.
