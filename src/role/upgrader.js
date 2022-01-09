@@ -1,3 +1,5 @@
+var waitFlag = require("pathing.waitFlag");
+
 var upgrader = {
 
     /** @param {Creep} creep **/
@@ -18,10 +20,13 @@ var upgrader = {
             }
         }
         else {
-            var sources = creep.room.find(FIND_SOURCES);
-            var sources = _.sortBy(sources, s => creep.pos.getRangeTo(s));
-            if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+            var target = waitFlag.sourcePath(creep, Game.flags["Flag1"]);
+            if(target !== Game.flags['Flag1']) {
+                if (creep.harvest(target) === ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
+                }
+            } else {
+                creep.moveTo(target.pos, {visualizePathStyle: {stroke: '#ffffff'}});
             }
         }
 	}

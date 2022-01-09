@@ -8,6 +8,7 @@ var rolefixer = require('role.fixer');
 module.exports.loop = function () {
 
     // clear memory  of dead creeps
+    console.log("start")
     for (var name in Memory.creeps) {
         if (!Game.creeps[name]) {
             delete Memory.creeps[name];
@@ -15,7 +16,6 @@ module.exports.loop = function () {
         }
     }
 
-    Memory.lastSpawn = 'fixer'
     var nextRole = spawnRole.spawnRole();
     if (nextRole) {
         let newName = nextRole + Game.time;

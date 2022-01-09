@@ -1,14 +1,17 @@
+var waitFlag = require("pathing.waitFlag");
+
 var harvester = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-
-        var sourcesNearest = _.sortBy(sources, s => creep.pos.getRangeTo(s))
 	    if(creep.store.getFreeCapacity() > 0) {
-            var sources = creep.room.find(FIND_SOURCES);
-            var sources = _.sortBy(sources, s => creep.pos.getRangeTo(s));
-            if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+            var target = waitFlag.sourcePath(creep, Game.flags["Flag1"]);
+            if(target !== Game.flags['Flag1']) {
+                if (creep.harvest(target) === ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
+                }
+            } else {
+                creep.moveTo(target.pos, {visualizePathStyle: {stroke: '#ffffff'}});
             }
         } else {
             var targets = creep.room.find(FIND_STRUCTURES, {
@@ -25,7 +28,7 @@ var harvester = {
                 }
             } else {
                 var flag = Game.flags.Flag1;
-                creep.moveTo(flag.pos.x, flag.pos.y,{visualizePathStyle: {stroke: '#ffffff'}});
+                creep.moveTo(flag.pos,{visualizePathStyle: {stroke: '#ffffff'}});
             }
         }
 	}

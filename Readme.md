@@ -1,7 +1,7 @@
 ##Things I need:
-
-- *Bug* Issue with only one builder appearing should have max of three.
-- *Bug* Issue with screeps dodging in and out around the energy node.
+(Bugs go here)
+  - store paths in creep memory.
+  - Ramparts are not getting repaired.
 
 ##Things I want:
 

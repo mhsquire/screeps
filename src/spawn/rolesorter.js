@@ -49,7 +49,6 @@ function calcRepairStrength() {
 function calcBuildStrength() {
     var constructCreeps = 3;
     var repairCreeps = calcRepairStrength();
-    console.log(repairCreeps);
     return Math.floor(constructCreeps - repairCreeps);
 }
 
@@ -60,7 +59,7 @@ var spawnRole = {
         for (var i = 0; i < roles.length; i++) {
             var creeps = _.filter(Game.creeps, (creep) => creep.memory.role === roles[i]);
             if (roles[i].toLowerCase() === "harvester") {
-                if (creeps.length < 3) {
+                if (creeps.length < 2) {
                     return roles[i];
                 }
             }
@@ -72,7 +71,6 @@ var spawnRole = {
             if (roles[i].toLowerCase() === "builder") {
                 if (Object.keys(Game.constructionSites).length > 0) {
                     var builders = calcBuildStrength();
-                    console.log(builders);
                     var buildNum = builders;
                 } else {
                     var buildNum = 1;
@@ -93,4 +91,5 @@ var spawnRole = {
         return false;
     }
 }
+
 module.exports = spawnRole;

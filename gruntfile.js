@@ -1,55 +1,56 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
+    require('time-grunt')(grunt);
 
-    var config = require('./.screeps.json');
+    // Pull defaults (including username and password) from .screeps.json
+    var config = require('./.screeps.json')
+
+    // Allow grunt options to override default configuration
     var branch = grunt.option('branch') || config.branch;
     var email = grunt.option('email') || config.email;
-    var token = grunt.option('token') || config.token;
-    var ptr = grunt.option('ptr') ? true : config.ptr;
+    var password = grunt.option('token') || config.token;
+    var ptr = grunt.option('ptr') ? true : config.ptr
+    var private_directory = grunt.option('private_directory') || config.private_directory;
 
-    grunt.loadNpmTasks('grunt-screeps');
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-file-append');
 
     var currentdate = new Date();
-
-    // Output the current date and branch.
     grunt.log.subhead('Task Start: ' + currentdate.toLocaleString())
     grunt.log.writeln('Branch: ' + branch)
 
+    // Load needed tasks
+    grunt.loadNpmTasks('grunt-screeps')
+    grunt.loadNpmTasks('grunt-contrib-clean')
+    grunt.loadNpmTasks('grunt-contrib-copy')
+    grunt.loadNpmTasks('grunt-file-append')
+    grunt.loadNpmTasks("grunt-jsbeautifier")
+    grunt.loadNpmTasks("grunt-rsync")
+
     grunt.initConfig({
+
+        // Push all files in the dist folder to screeps. What is in the dist folder
+        // and gets sent will depend on the tasks used.
         screeps: {
             options: {
                 email: email,
-                token: token,
+                token: password,
                 branch: branch,
-                // ptr: ptr
+                ptr: ptr
             },
             dist: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: 'dist/',
-                        src: ['**/*.{js,wasm}'],
-                        flatten: true
-                    }
-                ]
-            },
-
-        },
-        // Remove all files from the dist folder.
-        clean: {
-            'dist': ['dist']
+                src: ['dist/*.js']
+            }
         },
 
-        // Copy all source files into the dist folder, flattening the folder structure by converting path delimiters to underscores
+
+        // Copy all source files into the dist folder, flattening the folder
+        // structure by converting path delimiters to underscores
         copy: {
-            // Pushes the game code to the dist folder so it can be modified before being send to the screeps server.
+            // Pushes the game code to the dist folder so it can be modified before
+            // being send to the screeps server.
             screeps: {
                 files: [{
                     expand: true,
                     cwd: 'src/',
-                    src: '**/*.{js,wasm}',
+                    src: '**',
                     dest: 'dist/',
                     filter: 'isFile',
                     rename: function (dest, src) {
@@ -59,6 +60,24 @@ module.exports = function(grunt) {
                 }],
             }
         },
+
+
+        // Copy files to the folder the client uses to sink to the private server.
+        // Use rsync so the client only uploads the changed files.
+        rsync: {
+            options: {
+                args: ["--verbose", "--checksum"],
+                exclude: [".git*"],
+                recursive: true
+            },
+            private: {
+                options: {
+                    src: './dist/',
+                    dest: private_directory,
+                }
+            },
+        },
+
 
         // Add version variable using current timestamp.
         file_append: {
@@ -71,6 +90,14 @@ module.exports = function(grunt) {
                 ]
             }
         },
+
+
+        // Remove all files from the dist folder.
+        clean: {
+            'dist': ['dist']
+        },
+
+
         // Apply code styling
         jsbeautifier: {
             modify: {
@@ -87,9 +114,12 @@ module.exports = function(grunt) {
                 }
             }
         }
+
     })
 
-    grunt.registerTask('default',  ['clean', 'copy:screeps', 'file_append:versioning', 'screeps']);
+    // Combine the above into a default task
+    grunt.registerTask('default',  ['clean', 'copy:screeps',  'file_append:versioning', 'screeps']);
+    grunt.registerTask('private',  ['clean', 'copy:screeps',  'file_append:versioning', 'rsync:private']);
     grunt.registerTask('test',     ['jsbeautifier:verify']);
     grunt.registerTask('pretty',   ['jsbeautifier:modify']);
 }
