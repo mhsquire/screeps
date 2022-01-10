@@ -1,4 +1,4 @@
-var waitFlag = require("pathing.waitFlag");
+var sourcePath = require("pathing.sourcepath");
 
 var upgrader = {
 
@@ -20,7 +20,7 @@ var upgrader = {
             }
         }
         else {
-            var target = waitFlag.sourcePath(creep, Game.flags["Flag1"]);
+            var target = sourcePath.path(creep, Game.flags["Flag1"]);
             if(target !== Game.flags['Flag1']) {
                 if (creep.harvest(target) === ERR_NOT_IN_RANGE) {
                     creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});

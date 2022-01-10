@@ -58,8 +58,8 @@ function blocked(creep, target) {
     return blocked;
 }
 
-const waitFlag = {
-    sourcePath: function (creep, flag) {
+const sourcepath = {
+    path: function (creep, flag) {
         var sources = _.sortBy(creep.room.find(FIND_SOURCES), s => creep.pos.getRangeTo(s));
         var target = sources[0];
         if (blocked(creep, sources[0].pos)) {
@@ -69,4 +69,4 @@ const waitFlag = {
     }
 };
 
-module.exports = waitFlag;
+module.exports = sourcepath;

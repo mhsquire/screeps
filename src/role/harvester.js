@@ -1,4 +1,4 @@
-var waitFlag = require("pathing.waitFlag");
+var sourcePath = require("pathing.sourcepath");
 
 var harvester = {
 
@@ -6,7 +6,7 @@ var harvester = {
     run: function(creep) {
         let flag = Game.flags["Flag1"];
         if(creep.store.getFreeCapacity() > 0) {
-            let target = waitFlag.sourcePath(creep, flag);
+            let target = sourcePath.path(creep, flag);
             if(target !== flag) {
                 if (creep.harvest(target) === ERR_NOT_IN_RANGE) {
                     creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
