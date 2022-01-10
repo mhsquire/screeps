@@ -18,12 +18,13 @@ module.exports.loop = function () {
     }
 
     var nextRole = spawnRole.spawnRole();
-    var energy = Game.spawns.Spawn1.room.energyCapacityAvailable;
+    var energy = Game.spawns.Spawn1.room.energyAvailable;
     if (nextRole) {
         let newName = nextRole + Game.time;
         console.log("Spawning new " + nextRole + ": " + newName);
-        Game.spawns['Spawn1'].spawnCreep(bodyBuilder.body(energy), newName,
+        result = Game.spawns['Spawn1'].spawnCreep(bodyBuilder.body(energy), newName,
             {memory: {role: nextRole}});
+        console.log(result)
         Memory.lastSpawn = nextRole;
     }
 
@@ -39,16 +40,16 @@ module.exports.loop = function () {
 
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
-        if (creep.memory.role == 'harvester') {
+        if (creep.memory.role === 'harvester') {
             roleHarvester.run(creep);
         }
-        if (creep.memory.role == 'upgrader') {
+        if (creep.memory.role === 'upgrader') {
             roleUpgrader.run(creep);
         }
-        if (creep.memory.role == 'builder') {
+        if (creep.memory.role === 'builder') {
             roleBuilder.run(creep);
         }
-        if (creep.memory.role == 'fixer') {
+        if (creep.memory.role === 'fixer') {
             rolefixer.run(creep);
         }
     }
