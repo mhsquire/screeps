@@ -32,6 +32,6 @@ var harvester = {
             }
         }
 	}
-};
+}
 
 module.exports = harvester;

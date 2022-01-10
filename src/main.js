@@ -1,3 +1,4 @@
+var bodyBuilder = require("spawn.bodybuilder")
 var spawnRole = require("spawn.rolesorter");
 var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
@@ -17,10 +18,11 @@ module.exports.loop = function () {
     }
 
     var nextRole = spawnRole.spawnRole();
+    var energy = Game.spawns.Spawn1.room.energyCapacityAvailable;
     if (nextRole) {
         let newName = nextRole + Game.time;
         console.log("Spawning new " + nextRole + ": " + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE], newName,
+        Game.spawns['Spawn1'].spawnCreep(bodyBuilder.body(energy), newName,
             {memory: {role: nextRole}});
         Memory.lastSpawn = nextRole;
     }

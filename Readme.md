@@ -2,12 +2,13 @@
 (Bugs go here)
   - store paths in creep memory.
   - Ramparts are not getting repaired.
+  - harvest creeps do not drop off the rest of the energy when they drop off a load.
 
 ##Things I want:
 
-- All creeps to report and alert to combat -- RED ALERT.
+- Body parts increase
 
-- I want to define a flag that creeps go to wait at when there is no room at the energy node.
+- All creeps to report and alert to combat -- RED ALERT.
 
 - Builders prefer construction sites:
   - Defense first, mainly turrets.

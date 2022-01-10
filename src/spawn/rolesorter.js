@@ -59,7 +59,7 @@ var spawnRole = {
         for (var i = 0; i < roles.length; i++) {
             var creeps = _.filter(Game.creeps, (creep) => creep.memory.role === roles[i]);
             if (roles[i].toLowerCase() === "harvester") {
-                if (creeps.length < 2) {
+                if (creeps.length < 3) {
                     return roles[i];
                 }
             }
