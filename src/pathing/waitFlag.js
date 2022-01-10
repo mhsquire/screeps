@@ -16,28 +16,41 @@ function blocked(creep, target) {
                 if (area[row][col][list + 1]) var nextItem = area[row][col][list + 1];
                 // console.log("list " + Object.values(area[row][col][list]));
                 if (currItem["type"] === "terrain") {
-                    if (currItem["terrain"] === "wall") break; // item blocks pos
+                    if (currItem["terrain"] === "wall") {
+                        // console.log(creep + " " + col + " " + row + " wall");
+                        break;
+                    }
                     if (currItem["terrain"] === "plain" || currItem["terrain"] === "swamp") {
                         if (nextItem) {
                             if (nextItem["type"] === "creep" && nextItem["creep"] !== creep) {
+                                // console.log(creep + " " + col + " " + row + " creep");
                                 break;
                             } else if (nextItem["type"] === "source") {
+                                // console.log(creep + " " + col + " " + row + " source");
                                 break; // item blocks pos
-                            } else if (nextItem["type"] === "structure") {
+                            } else if (nextItem["type"] === "structure" && nextItem["structure"] !== STRUCTURE_ROAD) {
+                                // console.log(creep + " " + col + " " + row + " structure");
                                 break;
                             } else {
+                                // console.log(creep + " " + col + " " + row + " should be free");
                                 blocked = false;
+                                break;
                             }
                         }
                     }
                 } else if (currItem["type"] === "creep" && currItem["creep"] !== creep) {
+                    // console.log(creep + " " + col + " " + row + " creep 1");
                     break;
                 } else if (currItem["type"] === "source") {
+                    // console.log(creep + " " + col + " " + row + " source 1");
                     break; // item blocks pos
-                } else if (currItem["type"] === "structure") {
+                } else if (currItem["type"] === "structure" && nextItem["structure"] !== "road") {
+                    // console.log(creep + " " + col + " " + row + " structure 1");
                     break;
                 } else {
+                    // console.log(creep + " " + col + " " + row + " should be free 1");
                     blocked = false;
+                    break;
                 }
             }
         }
