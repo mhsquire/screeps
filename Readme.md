@@ -6,13 +6,13 @@
 
 ##Things I want:
 
-- Body parts increase
+- [*done*] Body parts increase
 
 - All creeps to report and alert to combat -- RED ALERT.
 
-- Builders prefer construction sites:
+- *[done]* Builders prefer construction sites:
   - Defense first, mainly turrets.
   - Then Extensions for bigger creeps
   - Then roads and wall infrastructure.
 
-- I want to define a worker role.
+  - I want to define a worker role.
