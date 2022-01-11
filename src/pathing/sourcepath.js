@@ -7,12 +7,12 @@ function blocked(creep, target) {
     let area = creep.room.lookAtArea(top, left, bottom, right);
     // console.log(target.x + " " + target.y)
     let blocked = true;
-    for (var row = top; row <= bottom; row++) {
+    for (let row = top; row <= bottom; row++) {
         // console.log("row = " + Object.values(area[row]));
-        for (var col = left; col <= right; col++) {
+        for (let col = left; col <= right; col++) {
             // console.log("col " + Object.values(area[row][col]));
-            for (var list = 0; list < area[row][col].length; list++) {
-                var currItem = area[row][col][list];
+            for (let list = 0; list < area[row][col].length; list++) {
+                let currItem = area[row][col][list];
                 if (area[row][col][list + 1]) var nextItem = area[row][col][list + 1];
                 // console.log("list " + Object.values(area[row][col][list]));
                 if (currItem["type"] === "terrain") {
@@ -61,9 +61,15 @@ function blocked(creep, target) {
 const sourcepath = {
     path: function (creep, flag) {
         var sources = _.sortBy(creep.room.find(FIND_SOURCES), s => creep.pos.getRangeTo(s));
-        var target = sources[0];
-        if (blocked(creep, sources[0].pos)) {
-            target = flag;
+        let target = undefined;
+        for (let i = 0; i < sources.length; i++) {
+            if (!blocked(creep, sources[i].pos)) {
+               target = sources[i];
+               break;
+            }
+            if (i + 1 === sources.length) {
+                target = flag;
+            }
         }
         return target;
     }

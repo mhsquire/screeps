@@ -22,7 +22,7 @@ module.exports.loop = function () {
     if (nextRole) {
         let newName = nextRole + Game.time;
         console.log("Spawning new " + nextRole + ": " + newName + " energy: " + energy);
-        result = Game.spawns['Spawn1'].spawnCreep(bodyBuilder.body(energy), newName,
+        let result = Game.spawns['Spawn1'].spawnCreep(bodyBuilder.body(energy), newName,
             {memory: {role: nextRole}});
         // console.log("Spawn result code is: " + result)
         Memory.lastSpawn = nextRole;

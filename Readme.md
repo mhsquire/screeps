@@ -7,13 +7,17 @@
 
 ##Things I want:
 
-- [*done*] Body parts increase
+- [*done*] <s>Body parts increase</s>
 
 - All creeps to report and alert to combat -- RED ALERT.
 
-- *[done]* Builders prefer construction sites:
+- *[done]* <s>Builders prefer construction sites:
   - Defense first, mainly turrets.
   - Then Extensions for bigger creeps
-  - Then roads and wall infrastructure.
+  - Then roads and wall infrastructure.</s>
 
 - I want to define a worker role.
+
+- I want a pathing system that plans roads.
+
+- I want a scout that lays roads where appropriate.
